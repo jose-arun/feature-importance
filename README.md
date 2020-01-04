@@ -1,4 +1,3 @@
-# feature-importance
 An investigation into feature importance variability in L2 word learning accuracy.
 
 # ABSTRACT
