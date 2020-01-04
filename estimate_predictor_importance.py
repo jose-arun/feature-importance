@@ -17,12 +17,10 @@ import xgboost as xgb
 import matplotlib.pyplot as plt
 from textwrap import wrap
 
-# from skater.core.explanations import Interpretation
-# from skater.model import InMemoryModel
 
 # Choose dataset
-# df = pandas.read_csv('dataset/20191210duo_data_by_word.csv')
-df = pandas.read_csv('dataset/20191120duo_data_assembled_logged.csv')
+df = pandas.read_csv('dataset/20191210duo_data_by_word.csv')
+# df = pandas.read_csv('dataset/20191120duo_data_assembled_logged.csv')
 
 print("Number of rows of the complete dataset: " + str(df.shape[0]))
 
@@ -36,10 +34,8 @@ print("Number of null values after imputation in Human Concreteness: " + str(df[
 # Select relevant columns
 total_columns = ['wordexperience_log', 'userexperience_log', 'human_conc', 'ld',
                     'local_alignment_avg', 'semantic_density_l1', 'l1_freq_wfzipf',
-                    'l1_nrsynsets_wn', 'propcorr_p'] #TODO:  'POS', 'lang_pair'
+                    'l1_nrsynsets_wn', 'propcorr_p']
 df = df[total_columns]
-
-# One-hot encoding for lang_pair
 
 
 # Drop the missing values
@@ -47,7 +43,7 @@ df = df.dropna()
 print("Number of rows of the dataset after dropping NaN rows: " + str(df.shape[0]))
 
 # Train-Test Split
-train, test = train_test_split(df, test_size=0.01);
+train, test = train_test_split(df, test_size=0.05);
 
 # Extract the predictors and the label to be predicted, split into train and test
 X_train = train.loc[:, df.columns != 'propcorr_p']
@@ -80,7 +76,8 @@ ax4 = fig.add_subplot(425)
 ax5 = fig.add_subplot(426)
 ax6 = fig.add_subplot(427)
 ax7 = fig.add_subplot(428)
-# fig.delaxes(ax[0,1]) # Deleting the unused slot
+
+
 # Plotting function
 def plot_feature_importance_model(feature_importance, modelName, axis):
     global predictor_columns
@@ -107,14 +104,6 @@ def plot_feature_importance_model(feature_importance, modelName, axis):
     ax.set_xlabel('Predictor', fontsize=12)
     ax.set_ylabel('Feature Importance measure', fontsize=12)
     ax.set_title('Plotting the feature importance of predictors \n in L2 word learning (complete dataset)', fontsize=15)
-
-    #
-    # ax[subplot_x, subplot_y].bar(cropped_predictor_columns, feature_importance)
-    #
-    # # plt.bar(predictor_columns, feature_importance)
-    # plt.xlabel('Predictor', fontsize=10)
-    # plt.ylabel('Relative feature importance', fontsize=10)
-    # # plt.title('Plotting the feature importance of predictors \n in L2 word learning using ' + modelName, fontsize=12)
 
 
 # Predict with LR
